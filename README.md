@@ -1,2 +1,3 @@
 # warehold
-REST API using FastAPI to manage processes in the warehouse
+
+Тестовое задание в Effective Mobile: REST API с использованием FastAPI для управления процессами на складе.
