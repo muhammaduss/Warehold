@@ -1,8 +1,17 @@
 from fastapi import FastAPI
+from sqlalchemy.ext.asyncio import async_sessionmaker
+from sqlalchemy import select
+from models import Product
+from db import engine
 
 app = FastAPI(
     title="Warehold API Documentation",
     description="API for managaing processes on warehouse",
+)
+
+session = async_sessionmaker(
+    bind=engine,
+    expire_on_commit=False
 )
 
 
@@ -19,7 +28,11 @@ async def post_product():
 
 @app.get("/products")
 async def get_products():
-    pass
+    async with session() as s:
+        statement = select(Product).order_by(Product.id)
+        result = await s.execute(statement)
+        return result.scalars().first()
+#
 
 
 @app.get("/products/{id}")
