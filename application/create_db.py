@@ -1,11 +1,10 @@
-from db import Base, engine
+from db import engine
 import asyncio
+from models import Base
 
 
 async def create_db():
     async with engine.begin() as conn:
-
-        from models import Product
 
         await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)

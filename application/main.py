@@ -142,13 +142,16 @@ async def post_order(data: List[CreateOrderModel]):
 
             # Получаем id из таблиц Products и OrderItem
 
-            statement = select(Product).filter(
-                Product.title == entry.title).order_by(Product.id.desc())
+            statement = select(Product).filter(Product.title == entry.title)
             result = await s.execute(statement)
 
-            products_last = result.scalars().first()
-            if products_last is None:
+            product = result.scalars().one()
+            if product is None:
                 return {"message": f"Товара '{entry.title}' нет на складе"}
+
+            # Проверка достаточного количества товара на складе для заказа
+            if product.count < entry.count:
+                return {"message": "Недостаточно количество товара на складе"}
 
             statement = select(OrderItem).order_by(OrderItem.id.desc())
             result = await s.execute(statement)
@@ -163,10 +166,13 @@ async def post_order(data: List[CreateOrderModel]):
 
             order_item = OrderItem(
                 id=order_items_last_id + 1,
-                product_id=products_last.id,
+                product_id=product.id,
                 order_id=orders_last_id,
                 count=entry.count
             )
+
+            # Обновление количества товара на складе при создании заказа
+            product.count -= entry.count
 
             s.add(order_item)
             await s.commit()
