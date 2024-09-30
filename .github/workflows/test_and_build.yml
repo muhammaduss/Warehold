@@ -38,7 +38,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        python3 -m pytest -v
+        pytest -v
     - name: Build docker containers
       run: |
         docker-compose up --build -d
