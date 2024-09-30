@@ -11,7 +11,6 @@ class CreateProductModel(BaseModel):
 
 
 class GetProductModel(BaseModel):
-    id: int
     title: str
     description: str
     price: int
