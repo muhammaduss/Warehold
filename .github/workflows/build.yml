@@ -38,4 +38,5 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Build docker containers
       run: |
+        echo "${{ secrets.ENV_FILE }}" > ./prod.env
         docker compose up --build -d
