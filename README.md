@@ -1,3 +1,5 @@
+[![CI/CD](https://github.com/muhammaduss/warehold/actions/workflows/build.yml/badge.svg)](https://github.com/muhammaduss/warehold/actions/workflows/build.yml)
+
 # Warehold
 
 Тестовое задание в Effective Mobile: REST API с использованием FastAPI для управления процессами на складе.
